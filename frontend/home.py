@@ -51,6 +51,23 @@ def call_api_method(cipher_text: str, n_iter: int, n_pop: int) -> str:
     return response_json["plain_text"], response_json["history"]
 
 
+def display_result(cipher_text: str, n_iter: int, n_pop: int) -> None:
+    with st.spinner("Processing..."):
+        response = call_api_method(cipher_text, n_iter, n_pop)
+        plain_text, history = response
+
+    st.header("Result")
+    st.text_area(label="", value=plain_text, disabled=True)
+
+    with st.expander("Details"):
+        history_df = pd.DataFrame(history)
+        st.dataframe(
+            history_df,
+            use_container_width=True,
+            hide_index=False
+        )
+
+
 def app():
     st.set_page_config(
         page_title="Cryptogram Decoder",
@@ -60,30 +77,22 @@ def app():
     st.title("Cryptogram Genetic Decoder")
     st.markdown(HOME_TEXT)
 
-    with st.container():
-        st.header("Input")
-        cipher_text = st.text_area(label="Cryptogram :red[*]",
-                                   value=CIPHER_TEXT)
+    st.header("Input")
+    cipher_text = st.text_area(
+        label="Cryptogram :red[*]",
+        value=CIPHER_TEXT
+    )
 
+    with st.expander("Advanced options"):
         col1, col2 = st.columns(2)
         with col1:
             n_iter = st.slider("Number of iterations", 0, 100, 25)
         with col2:
-            n_pop = st.slider("Number of population", 0, 200, 100)
+            n_pop = st.slider("Number of population", 0, 200, 120)
 
-        bt_clicked = st.button("Decode")
-        if bt_clicked:
-            with st.spinner("Processing..."):
-                response = call_api_method(cipher_text, n_iter, n_pop)
-                plain_text, history = response
-
-            st.header("Result")
-            st.text_area(label="", value=plain_text, disabled=True)
-            with st.expander("Details"):
-                history_df = pd.DataFrame(history)
-                st.dataframe(history_df,
-                             use_container_width=True,
-                             hide_index=True)
+    button_clicked = st.button("Decode")
+    if button_clicked:
+        display_result(cipher_text, n_iter, n_pop)
 
 
 if __name__ == "__main__":
