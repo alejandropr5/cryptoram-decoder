@@ -154,7 +154,7 @@ dmypy.json
 cython_debug/
 
 # VSCode
-cryptogram_decoder_project.code-workspace
+*.code-workspace
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
