@@ -4,4 +4,4 @@ Cryptogram Decoder is a Python-based project that uses genetic algorithms to eff
 
 ### Backend Tests
 
-[![Backend Tests](https://github.com/alejandropr5/cryptogram-decoder/actions/workflows/tests.yml/badge.svg)](https://github.com/alejandropr5/cryptogram-decoder/actions/workflows/tests.yml)
+[![Backend Tests](https://github.com/alejandropr5/cryptogram-decoder/actions/workflows/backend_tests.yml/badge.svg?branch=main)](https://github.com/alejandropr5/cryptogram-decoder/actions/workflows/backend_tests.yml)
