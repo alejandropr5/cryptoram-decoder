@@ -26,6 +26,4 @@ jobs:
     - name: Check Python version
       run: python --version
     - name: Test with tox
-      run: |
-        cd backend
-        tox
+      run: tox -c backend
