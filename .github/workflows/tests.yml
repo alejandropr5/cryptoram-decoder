@@ -18,6 +18,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -25,4 +26,7 @@ jobs:
     - name: Check Python version
       run: python --version
     - name: Test with tox
-      run: tox -c backend
+      run: |
+        pwd
+        cd backend
+        tox
