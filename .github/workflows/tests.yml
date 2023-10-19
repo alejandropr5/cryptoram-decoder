@@ -27,6 +27,5 @@ jobs:
       run: python --version
     - name: Test with tox
       run: |
-        pwd
         cd backend
         tox
