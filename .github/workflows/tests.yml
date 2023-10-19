@@ -24,8 +24,8 @@ jobs:
         pip install tox tox-gh-actions
     - name: Check Python version
       run: python --version
-    - name: Change directory to backend
-      run:
-        cd backend
     - name: Test with tox
-      run: tox
+      run: 
+        pwd
+        cd backend
+        tox
