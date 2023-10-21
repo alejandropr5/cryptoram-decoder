@@ -5,7 +5,6 @@ description = "Cryptogram decoder API"
 authors = ["alejandropr05 <alejandropr05@hotmail.com>"]
 homepage = ""
 repository = "https://github.com/alejandropr5/cryptogram-decoder/tree/main/backend"
-packages = [{include = "gencipher", from = "src"}]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
@@ -13,6 +12,7 @@ numpy = "^1.25.2"
 fastapi = "^0.103.1"
 uvicorn = "^0.23.2"
 fastapi-utils = "^0.2.1"
+gencipher = {git = "https://github.com/alejandropr5/genetic-decipher.git", develop = true}
 
 
 [tool.poetry.group.dev.dependencies]
@@ -40,7 +40,6 @@ testpaths = [
 ]
 
 [tool.mypy]
-mypy_path = "src"
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true
