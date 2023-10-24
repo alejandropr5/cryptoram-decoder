@@ -37,7 +37,7 @@ CIPHER_TEXT = (
 def call_api_method(**kwargs) -> str:
     request_data_json = json.dumps(kwargs)
     headers = {"Content-Type": "application/json"}
-    decipher_method_endpoint = f"{API_ENDPOINT}/gencipher/decipher"
+    decipher_method_endpoint = f"{API_ENDPOINT}/decipher"
 
     response = requests.request(
         "POST", decipher_method_endpoint,
