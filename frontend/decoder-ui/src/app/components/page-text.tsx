@@ -1,6 +1,24 @@
 'use client'
 
-import React from 'react'
+import React, { ReactNode } from 'react'
+
+interface TextRefProps {
+  children: ReactNode
+  link: string
+}
+
+function TextRef ({ children, link }: TextRefProps) {
+  return (
+    <a 
+      rel="noopener noreferrer nofollow external"
+      target="_blank"
+      href={link}
+      className="no-underline hover:underline text-[#619ebc]"
+    >
+      {children}
+    </a>
+  )
+}
 
 export function PageText() {
   return (
@@ -10,25 +28,19 @@ export function PageText() {
       </h1>
       <p className="text-[#3b4455] mb-10 text-[18px]">
         This tool solves{' '}
-        <a 
-          rel="noopener noreferrer nofollow external"
-          target="_blank"
-          href="https://en.wikipedia.org/wiki/Substitution_cipher"
-          className="no-underline hover:underline text-[#619ebc]"
-        >
+        <TextRef link="https://en.wikipedia.org/wiki/Substitution_cipher">
           monoalphabetic substitution ciphers
-        </a>
+        </TextRef>
         , also known as{' '}
-        <a 
-          rel="noopener noreferrer nofollow external"
-          target="_blank"
-          href="https://en.wikipedia.org/wiki/Cryptogram"
-          className="no-underline hover:underline text-[#619ebc]"
-        >
+        <TextRef link="https://en.wikipedia.org/wiki/Cryptogram">
           cryptograms
-        </a>
+        </TextRef>
         . These are ciphers where each letter of the clear text is replaced by a corresponding
-        letter of the cipher alphabet.
+        letter of the cipher alphabet {'('}
+        <TextRef link="https://en.wikipedia.org/wiki/Key_(cryptography)">
+          cipher key
+        </TextRef>
+        {')'}.
       </p>
     </>
   )

@@ -3,10 +3,12 @@
 import React from 'react'
 import { LabelToolTip } from './tooltips'
 import { ClientImage } from './client-image'
+import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 import infoSVG from '../../../public/info-svgrepo-com.svg'
 
 interface Props {
+  register: UseFormRegister<FieldValues>
   infoText: string
   label: string
   id: string
@@ -28,16 +30,21 @@ function SelectOptions({ options }: { options: Array<string>}) {
 
 export function CustomSelect(data: Props) {
   return (
-    <div className="my-2">
+    <div className="my-2 overflow-visible">
       <LabelToolTip text={data.infoText}>
-        <label htmlFor={data.id} className="block mb-2 text-sm font-medium text-[#3b4455] tracking-wide cursor-pointer">
-          {data.label}
-        </label>
-        <div className="h-4 w-4 cursor-pointer">
-          <ClientImage description='Info icon' imageComponent={infoSVG}/>
-        </div> 
+        <div className="flex flex-row items-center mb-4 w-fit">
+          <label htmlFor={data.id} className="block text-sm font-medium text-[#3b4455] tracking-wide">
+            {data.label}
+          </label>
+          <div className="h-4 w-4">
+            <ClientImage description='Info icon' imageComponent={infoSVG}/>
+          </div>
+        </div>
       </LabelToolTip>    
       <select
+        {...data.register(data.id, {
+          required: true
+        })}
         id="countries"
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:outline-none mb-8"
         defaultValue={data.defaultVal}
