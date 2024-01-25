@@ -3,7 +3,6 @@ name = "backend"
 version = "0.1.0"
 description = "Cryptogram decoder API"
 authors = ["alejandropr05 <alejandropr05@hotmail.com>"]
-homepage = ""
 repository = "https://github.com/alejandropr5/cryptogram-decoder/tree/main/backend"
 
 [tool.poetry.dependencies]
@@ -13,6 +12,7 @@ fastapi = "^0.103.1"
 uvicorn = "^0.23.2"
 fastapi-utils = "^0.2.1"
 gencipher = {git = "https://github.com/alejandropr5/genetic-decipher.git", develop = true}
+websockets = "^12.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -21,6 +21,7 @@ mypy = "^1.6.0"
 flake8 = "^6.1.0"
 pytest-cov = "^4.1.0"
 tox = "^4.11.3"
+ruff = "^0.1.14"
 
 
 [build-system]
@@ -51,3 +52,11 @@ warn_return_any = true
 warn_unreachable = true
 warn_unused_configs = true
 no_implicit_reexport = true
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true

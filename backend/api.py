@@ -1,31 +1,16 @@
-from pydantic import BaseModel
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
 from gencipher.model import GeneticDecipher
-
-
-class RequestBody(BaseModel):
-    cipher_text: str
-    max_iter: int = 20
-    n_population: int = 100
-    tolerance: float = 0.02
-    mutation_type: str = "scramble"
-    crossover_type: str = "full"
-    mutation_rate: float = 0.01
-    crossover_rate: float = 0.6
-
-
-class ResponseBody(BaseModel):
-    plain_text: str
-    history: dict[str, list]
+from src.utils import models
+from src.utils import constants
 
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[constants.HOMEPAGE_LOCALHOST, constants.HOMEPAGE_URL],
     allow_methods=["*"],
     allow_headers=["*"],
     allow_credentials=True,
@@ -49,11 +34,32 @@ def shutdown_event():
 
 
 @app.post("/decipher")
-def decipher(
-    body: RequestBody,
-    model: GeneticDecipher = Depends(get_model)
+async def decipher(
+    body: models.RequestBody, model: GeneticDecipher = Depends(get_model)
 ):
     plain_text = model.decipher(**body.dict())
 
-    return ResponseBody(plain_text=plain_text,
-                        history=model.history)
+    return models.ResponseBody(
+        plain_text=plain_text,
+        key=model.history["key"][-1],
+        fitness=model.history["fitness"][-1],
+    )
+
+
+@app.websocket("/ws/decipher")
+async def websocket_decipher(
+    websocket: WebSocket,
+    body: models.RequestBody,
+    model: GeneticDecipher = Depends(get_model),
+):
+    await websocket.accept()
+    decipher_generator = model.decipher_generator(**body.dict())
+
+    for best_key, fitness_percentage, deciphered_text in decipher_generator:
+        await websocket.send_json(
+            models.ResponseBody(
+                plain_text=deciphered_text,
+                key=best_key,
+                fitness=fitness_percentage,
+            )
+        )
