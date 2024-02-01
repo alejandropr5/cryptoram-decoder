@@ -1,12 +1,24 @@
-from fastapi import FastAPI, Request, Depends, WebSocket
+from fastapi import FastAPI, Request
+from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 from gencipher.model import GeneticDecipher
-from src.utils import models
-from src.utils import constants
+from src.utils import models, constants, sse
 
 
-app = FastAPI()
+api_models = {}
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Load the ML model
+    api_models["gencipher"] = GeneticDecipher()
+    yield
+    # Clean up the models and release the resources
+    api_models.clear()
+
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,49 +29,38 @@ app.add_middleware(
 )
 
 
-async def get_model(request: Request):
-    return request.app.state.model
-
-
-@app.on_event("startup")
-def load_model():
-    gencipher = GeneticDecipher()
-    print("Model loaded successfully!")
-    app.state.model = gencipher
-
-
-@app.on_event("shutdown")
-def shutdown_event():
-    print("Shutting down the application...")
-
-
 @app.post("/decipher")
-async def decipher(
-    body: models.RequestBody, model: GeneticDecipher = Depends(get_model)
-):
-    plain_text = model.decipher(**body.dict())
+async def decipher(body: models.RequestBody):
+    plain_text = api_models["gencipher"].decipher(**body.dict())
 
     return models.ResponseBody(
         plain_text=plain_text,
-        key=model.history["key"][-1],
-        fitness=model.history["fitness"][-1],
+        key=api_models["gencipher"].history["key"][-1],
+        fitness=api_models["gencipher"].history["fitness"][-1],
     )
 
 
-@app.websocket("/ws/decipher")
-async def websocket_decipher(
-    websocket: WebSocket,
-    body: models.RequestBody,
-    model: GeneticDecipher = Depends(get_model),
-):
-    await websocket.accept()
-    decipher_generator = model.decipher_generator(**body.dict())
+@app.post("/decipher_stream")
+async def decipher_stream(body: models.RequestBody, request: Request):
+    decipher_generator = api_models["gencipher"].decipher_generator(
+        **body.dict()
+    )
 
-    for best_key, fitness_percentage, deciphered_text in decipher_generator:
-        await websocket.send_json(
-            models.ResponseBody(
-                plain_text=deciphered_text,
-                key=best_key,
-                fitness=fitness_percentage,
-            )
-        )
+    async def event_generator():
+        for (
+            best_key,
+            fitness_percentage,
+            deciphered_text,
+        ) in decipher_generator:
+            if await request.is_disconnected():
+                break
+
+            yield {
+                "data": {
+                    "plain_text": deciphered_text,
+                    "key": best_key,
+                    "fitness": fitness_percentage,
+                }
+            }
+
+    return sse.JsonEventSourceResponse(event_generator())
