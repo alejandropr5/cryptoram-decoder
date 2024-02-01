@@ -21,7 +21,7 @@ export function CustomHeader() {
             </div>
             <nav className="font-semibold mx-3 text-[12pt] flex flex-row space-x-4">
               <LinkRef linkText="GitHub" reference="https://github.com/alejandropr5/gencipher-page" imageComponent={githubSVG} description='GitHub logo'/>
-              <LinkRef linkText="About me" reference="" imageComponent={aboutSVG} description='About logo'/>
+              <LinkRef linkText="Author" reference="" imageComponent={aboutSVG} description='About logo'/>
             </nav>
           </div>
         </header>
