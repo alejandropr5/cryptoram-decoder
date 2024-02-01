@@ -13,6 +13,8 @@ uvicorn = "^0.23.2"
 fastapi-utils = "^0.2.1"
 gencipher = {git = "https://github.com/alejandropr5/genetic-decipher.git", develop = true}
 websockets = "^12.0"
+sse-starlette = "^2.0.0"
+asyncio = "^3.4.3"
 
 
 [tool.poetry.group.dev.dependencies]
