@@ -15,6 +15,7 @@ interface PageContentProps {
   fitness: number
   reset: UseFormReset<FieldValues>
   inputDevRef: React.RefObject<HTMLDivElement>
+  ctrl: AbortController
 }
 
 export function PageContent(data: PageContentProps) {
@@ -32,6 +33,7 @@ export function PageContent(data: PageContentProps) {
           reset={data.reset}
           setCipherKey={data.setCipherKey}
           inputDevRef={data.inputDevRef}
+          ctrl={data.ctrl}
         />
       </div>
     </div>
