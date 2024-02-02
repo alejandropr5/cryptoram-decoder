@@ -9,7 +9,7 @@ import aboutSVG from '../../../public/web-svgrepo-com.svg'
 
 export function CustomHeader() {
     return (
-        <header className="mx-4 w-full h-[74px] bg-white border-b-[1px] border-b-[#eaecf0] sticky top-0">
+        <header className="mx-4 w-full h-[74px] bg-white border-b-[1px] border-b-[#eaecf0] sticky top-0 z-50">
           <div className="mx-4 p-4 flex items-center justify-between">
             <div className="flex flex-row justify-between items-center space-x-2">
               <div className="h-9 w-9">
