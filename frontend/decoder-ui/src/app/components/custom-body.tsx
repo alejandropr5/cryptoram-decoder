@@ -2,11 +2,13 @@
 
 import React, { useRef, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 import { SideBar } from "./sidebar";
 import { PageContent } from "./page-content"
 
 const API_ENDPOINT = 'http://0.0.0.0:8000/decipher'
+const API_STREAM_ENDPOINT = 'http://0.0.0.0:8000/decipher_stream'
 
 export function CustomBody() {
   const { register, watch, handleSubmit, setValue, reset } = useForm({
@@ -16,14 +18,16 @@ export function CustomBody() {
   const [key, setKey] = useState<string>('')
   const [fitness, setFitness] = useState<number>(0)
   const inputDevRef = useRef<HTMLDivElement>(null)
+  const ctrl = new AbortController()
 
   const onSubmit = async (data: any) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json")
+    var myHeaders = new Headers()    
   
+    setValue('result', data.cipherText)
+    setFitness(0.3)
     setShowResult(true)
     
-    var raw = JSON.stringify({
+    const requestBody = JSON.stringify({
       "cipher_text": data.cipherText,
       "max_iter": data.iterations,
       "n_population": data.population,
@@ -33,21 +37,31 @@ export function CustomBody() {
       "mutation_rate": data.mutationRate / 100,
       "crossover_rate": data.crossoverRate / 100
     })
-    
-    fetch(API_ENDPOINT, {
+
+    await fetchEventSource(API_STREAM_ENDPOINT, {
       method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
+      headers: {"Content-Type": "application/json"},
+      signal: ctrl.signal,
+      openWhenHidden: true,
+      body: requestBody,
+      onmessage: async (ev) => {
+        const data = ev.data
+        if (!data) {
+          return
+        }
+
+        try {
+          const d = JSON.parse(data)
+          setValue('result', d.plain_text)
+          setKey(d.key)
+          setFitness(d.fitness)
+          console.log(d)
+        } catch (e) {
+          console.log(data)
+          console.log('Fetch onmessage error', e)
+        }
+      }
     })
-      .then(response => response.json())
-      .then(result => {
-        setValue('result', result.plain_text)
-        setKey(result.key)
-        setFitness(result.fitness)
-        console.log(result)
-      })
-      .catch(error => console.log('error', error))
   }
 
   useEffect (() => {
@@ -67,6 +81,7 @@ export function CustomBody() {
         fitness={fitness}
         reset={reset}
         inputDevRef={inputDevRef}
+        ctrl={ctrl}
       />
     </form>    
   )
