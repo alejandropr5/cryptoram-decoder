@@ -5,7 +5,7 @@ import { FieldValues, UseFormRegister, UseFormSetValue, UseFormReset } from 'rea
 
 import { ClientImage } from './client-image'
 import randomSVG from '../../../public/dice-random.svg'
-import { ButtonToolTip } from './tooltips'
+import { ButtonToolTip, ScoreToolTip } from './tooltips'
 import EXAMPLES from './examples/examples'
 
 interface TextAreaProps {
@@ -18,11 +18,49 @@ interface TextAreaProps {
   fitness: number
   reset: UseFormReset<FieldValues>
   inputDevRef: React.RefObject<HTMLDivElement>
+  ctrl: AbortController
 }
 
 export function TextArea(data: TextAreaProps) {
   const nExamples = EXAMPLES.length
   const [exampleIndex, setExampleIndex] = useState<number>(Math.floor(Math.random() * nExamples))
+
+  const setColor = (score: number) => {
+    const scoreColors = ['#f24b4c', '#ffb412', '#56cf85']
+
+    if (score < 0.7) {
+      return scoreColors[0]
+    }
+    else if (score > 0.95 && score < 1.05) {
+      return scoreColors[2]
+    }
+    else {
+      return scoreColors[1]
+    }
+  }
+
+  const setText = (score: number) => {
+    const scoreText = 'Score ' + Math.round(score*100) + ': '
+    const text = [
+      'Random set of characters, the result is far away from being readable',
+      'Very unlikely to be a readable result',
+      'The correct solution may have be found, or at least the result comes close to english',
+      '	Probably not readable, the provided cipher text might be too short'
+    ]
+
+    if (score < 0.7) {
+      return scoreText + text[0]
+    }
+    else if (score < 0.95) {
+      return scoreText + text[1]
+    }
+    else if (score < 1.05) {
+      return scoreText + text[2]
+    }
+    else {
+      return scoreText + text[3]
+    }
+  }
 
   const setRandomValue = async () => {
     var index = exampleIndex
@@ -34,7 +72,9 @@ export function TextArea(data: TextAreaProps) {
   }
 
   const clearTextArea = async () => {
-    data.reset()
+    data.ctrl.abort()
+    data.setValue('cipherText', '')
+    data.setValue('result', '')
     data.setCipherKey('')
     data.setShowResult(false)
   }
@@ -47,7 +87,7 @@ export function TextArea(data: TextAreaProps) {
             id="cipherText"
             {...data.register('cipherText')}
             rows={6}
-            className="w-full px-0 text-[15px] text-[#434d61] bg-white border-0 focus:outline-none"
+            className="w-full px-0 text-[15px] text-[#434d61] bg-white border-0 focus:outline-none font-mono"
             placeholder="Write a cryptogram..."
             required
             minLength={4}
@@ -92,33 +132,31 @@ export function TextArea(data: TextAreaProps) {
             id="result"
             {...data.register('result')}
             rows={6}
-            className="w-full px-0 text-[15px] text-[#434d61] bg-white border-0 focus:outline-none cursor-text"
+            className="w-full px-0 text-[16px] text-[#434d61] bg-white border-0 focus:outline-none cursor-text font-ubuntu"
             disabled
             />
             </div>
             <div ref={data.inputDevRef} className="flex items-center justify-between mb-2">
               <div className="flex flex-row">
-                <span className="block text-sm font-bold text-[#3b4455] tracking-wide justify-between">
-                  Decipher Key:
+                <span className="block text-sm font-bold text-[#3b4455] tracking-wide justify-between ">
+                  Cipher Key:
                 </span>
                 <span className="block text-sm font-normal text-[#3b4455] tracking-wide ml-2 justify-between">
-                  {data.cipherKey}
+                  {data.cipherKey.toLowerCase()}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <div className="w-36 bg-[#e48d8d] rounded-full h-2.5 relative">
-                  <span className="absolute border-l-[14px] border-[#8ee083] h-full left-[75%]"/>
+                <ScoreToolTip text={setText(data.fitness)}>
+                <div className="w-36 bg-gray-200 rounded-full h-2.5">
+                  <span className="absolute border-l-[12px] border-gray-400 h-full left-[78%]"/>
                   <span
-                  className="absolute border-l-[7px] border-[#727272f3] h-full"
+                  className="absolute left-0 h-full rounded-full"
                   style={{
-                    left: '40%'
-                  }}/>
-                  {/* <div
-                  className="bg-[#777777c7] h-2.5 rounded-full absolute"
-                  style={{
-                    width: '78%'
-                  }}/>                 */}
+                    width: ((data.fitness * 83) + '%'),
+                    backgroundColor: setColor(data.fitness)
+                  }}/>                  
                 </div>
+                </ScoreToolTip>
               </div>
             </div>
           </div>
