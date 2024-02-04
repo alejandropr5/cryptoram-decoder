@@ -4,6 +4,10 @@ version = "0.1.0"
 description = "Cryptogram decoder API"
 authors = ["alejandropr05 <alejandropr05@hotmail.com>"]
 repository = "https://github.com/alejandropr5/cryptogram-decoder/tree/main/backend"
+packages = [
+    {include = "app", from = "src"},
+    {include = "utils", from = "src"}
+]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
@@ -15,34 +19,44 @@ gencipher = {git = "https://github.com/alejandropr5/genetic-decipher.git", devel
 websockets = "^12.0"
 sse-starlette = "^2.0.0"
 asyncio = "^3.4.3"
-
+pytest-cov = "^4.1.0"
+pytest = "^8.0.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.2"
 mypy = "^1.6.0"
-flake8 = "^6.1.0"
-pytest-cov = "^4.1.0"
 tox = "^4.11.3"
 ruff = "^0.1.14"
-
+httpx = "^0.26.0"
+flake8 = "^7.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [options.package_data]
-gencipher = "py.typed"
+app = "py.typed"
 
 [flake8]
 max-line-length = 79
 
 [tool.pytest.ini_options]
-addopts = "--cov=gencipher"
+addopts = "--cov=app.api"
 testpaths = [
     "tests",
 ]
 
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+docstring-code-line-length = 72
+exclude = ["missing-trailing-comma"]
+
 [tool.mypy]
+mypy_path = "src/app"
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true
@@ -54,11 +68,3 @@ warn_return_any = true
 warn_unreachable = true
 warn_unused_configs = true
 no_implicit_reexport = true
-
-[tool.ruff]
-line-length = 79
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-docstring-code-format = true
