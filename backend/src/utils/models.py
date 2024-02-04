@@ -27,7 +27,7 @@ class RequestBody(BaseModel):
             description=(
                 "The size of the candidate population for each " "iteration."
             ),
-            ge=0,
+            ge=1,
         ),
     ] = 100
     tolerance: Annotated[
@@ -41,8 +41,24 @@ class RequestBody(BaseModel):
             le=1,
         ),
     ] = 0.02
-    mutation_type: str = "scramble"
-    crossover_type: str = "full"
+    mutation_type: Annotated[
+        str,
+        Body(
+            description=(
+                "The type of mutation to be applied in the genetic algorithm."
+            ),
+            examples=["insert", "swap", "inversion", "scramble"],
+        ),
+    ] = "scramble"
+    crossover_type: Annotated[
+        str,
+        Body(
+            description=(
+                "The type of crossover to be applied in the genetic algorithm."
+            ),
+            examples=["order-one", "partially-mapped", "cycle", "full"],
+        ),
+    ] = "full"
     mutation_rate: Annotated[
         float,
         Body(
