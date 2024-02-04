@@ -1,9 +1,12 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 from gencipher.model import GeneticDecipher
-from src.utils import models, constants, sse
+from gencipher.utils import InvalidInputError
+from gencipher.crossover import CrossoverType
+from gencipher.mutation import MutationType
+from utils import models, constants, sse
 
 
 api_models = {}
@@ -25,23 +28,43 @@ app.add_middleware(
     allow_origins=[constants.HOMEPAGE_LOCALHOST, constants.HOMEPAGE_URL],
     allow_methods=["*"],
     allow_headers=["*"],
-    allow_credentials=True,
+    allow_credentials=True
 )
 
 
-@app.post("/decipher")
+@app.post("/decipher", response_model=models.ResponseBody)
 async def decipher(body: models.RequestBody):
-    plain_text = api_models["gencipher"].decipher(**body.dict())
+    try:
+        plain_text = api_models["gencipher"].decipher(**body.dict())
+    except InvalidInputError as e:
+        raise HTTPException(status_code=422, detail=str(e))
 
     return models.ResponseBody(
         plain_text=plain_text,
-        key=api_models["gencipher"].history["key"][-1],
-        fitness=api_models["gencipher"].history["fitness"][-1],
+        key=str(api_models["gencipher"].history["key"][-1]),
+        fitness=float(api_models["gencipher"].history["fitness"][-1])
     )
 
 
 @app.post("/decipher_stream")
 async def decipher_stream(body: models.RequestBody, request: Request):
+    if body.crossover_type not in CrossoverType.values():
+        raise HTTPException(
+            status_code=422,
+            detail=str(
+                InvalidInputError(
+                    "crossover", body.crossover_type, CrossoverType
+                )
+            )
+        )
+    if body.mutation_type not in MutationType.values():
+        raise HTTPException(
+            status_code=422,
+            detail=str(
+                InvalidInputError("mutation", body.mutation_type, MutationType)
+            )
+        )
+
     decipher_generator = api_models["gencipher"].decipher_generator(
         **body.dict()
     )
@@ -50,7 +73,7 @@ async def decipher_stream(body: models.RequestBody, request: Request):
         for (
             best_key,
             fitness_percentage,
-            deciphered_text,
+            deciphered_text
         ) in decipher_generator:
             if await request.is_disconnected():
                 break
@@ -59,7 +82,7 @@ async def decipher_stream(body: models.RequestBody, request: Request):
                 "data": {
                     "plain_text": deciphered_text,
                     "key": best_key,
-                    "fitness": fitness_percentage,
+                    "fitness": fitness_percentage
                 }
             }
 
