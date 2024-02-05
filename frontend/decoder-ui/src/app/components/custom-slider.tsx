@@ -21,22 +21,43 @@ interface Props {
 
 interface sliderDisplayProps {
   currentValue: number
+  minVal: number
   maxVal: number
   decimal: boolean
 }
 
-export function SliderValueDisplay ({ currentValue, maxVal, decimal }: sliderDisplayProps) {
+export function SliderValueDisplay ({ currentValue, minVal, maxVal, decimal }: sliderDisplayProps) {
+  const setPercentage = (currentValue: number, minVal: number, maxVal: number, decimal: boolean) => {
+    var percentage = (((currentValue - minVal + 0.1) / maxVal) * 100)
+    if (percentage >= 50 && !decimal) {
+      return Math.ceil(percentage)
+    }
+    else if (!decimal) {
+      return Math.floor(percentage)
+    }
+    else {
+      return percentage
+    }
+  }
+
   return (
-    <div
-      className="absolute w-5 h-5 rotate-45 bg-[#041f3c] mx-auto -top-[17px] rounded-s-[50%] rounded-tr-[50%] flex items-center justify-center left-3"
+    <div className="absolute -top-[17px] w-[21px] h-[21px]"
       style={{
-        // left: (Math.floor((currentValue/maxVal) * offset) - Math.floor((minVal/maxVal) * offset) - 1)
-        left: ((currentValue / maxVal) * 95) + '%'
-      }}>
-      <div className="-rotate-45 text-white font-medium text-[8px] flex items-center justify-center">
-        {decimal ? currentValue / 100 : currentValue}
-      </div>
-    </div> 
+        left: setPercentage(currentValue, minVal, maxVal, decimal) + '%'
+      }}
+    >
+      <div
+        className="absolute w-5 h-5 rotate-45 bg-[#041f3c] mx-auto  rounded-s-[50%] rounded-tr-[50%] flex items-center justify-center"
+          style={{
+            right: setPercentage(currentValue, minVal, maxVal, decimal) + '%'
+          }}
+        >
+        <div className="-rotate-45 text-white font-medium text-[8px] flex items-center justify-center">
+          {decimal ? currentValue / 100 : currentValue}
+        </div>
+      </div> 
+    </div>
+
   )
 }
 
@@ -55,7 +76,7 @@ export function CustomSlider(data: Props) {
           </div> 
         </div>
       </LabelToolTip>
-      <div className="relative">
+      <div className="relative f-full">
         <input
           {...data.register(data.sliderId, {
             required: true
@@ -74,6 +95,7 @@ export function CustomSlider(data: Props) {
         />
         <SliderValueDisplay
           currentValue={currentValue}
+          minVal={data.minVal}
           maxVal={data.maxVal}
           decimal={data.decimal}
         />
