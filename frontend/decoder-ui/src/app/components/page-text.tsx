@@ -27,20 +27,20 @@ export function PageText() {
         Genetic Decipher
       </h1>
       <p className="text-[#3b4455] mb-10 text-[18px]">
-        This tool solves{' '}
-        <TextRef link="https://en.wikipedia.org/wiki/Substitution_cipher">
-          monoalphabetic substitution ciphers
+        This tool uses a{' '}        
+        <TextRef link="https://en.wikipedia.org/wiki/Genetic_algorithm">
+          genetic algorithm
         </TextRef>
-        , also known as{' '}
+        {' '}to solve monoalphabetic substitution ciphers, also known as{' '}
         <TextRef link="https://en.wikipedia.org/wiki/Cryptogram">
           cryptograms
         </TextRef>
         . These are ciphers where each letter of the clear text is replaced by a corresponding
-        letter of the cipher alphabet {'('}
+        letter of a{' '}
         <TextRef link="https://en.wikipedia.org/wiki/Key_(cryptography)">
           cipher key
         </TextRef>
-        {')'}.
+        .
       </p>
     </>
   )
