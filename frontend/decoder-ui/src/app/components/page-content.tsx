@@ -20,8 +20,8 @@ interface PageContentProps {
 
 export function PageContent(data: PageContentProps) {
   return (
-    <div className="flex min-h-full h-fit w-full justify-between px-4 z-0">
-      <div className="flex flex-col w-auto mx-28 font-sans mt-5">
+    <div className="flex flex-col min-h-full h-fit w-full justify-between px-6 z-0 items-center">
+      <div className="flex flex-col max-w-[1256px] font-sans mt-5">
         <PageText/>
         <TextArea
           register={data.register}
