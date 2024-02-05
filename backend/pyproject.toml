@@ -21,12 +21,12 @@ sse-starlette = "^2.0.0"
 asyncio = "^3.4.3"
 pytest-cov = "^4.1.0"
 pytest = "^8.0.0"
+httpx = "^0.26.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.6.0"
 tox = "^4.11.3"
 ruff = "^0.1.14"
-httpx = "^0.26.0"
 flake8 = "^7.0.0"
 
 [build-system]
