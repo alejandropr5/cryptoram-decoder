@@ -124,7 +124,7 @@ export function TextArea(data: TextAreaProps) {
         </div>
         {data.showResult && 
           <div className="flex flex-col px-4 py-2 border-t">
-            <h2 className="text-[#261c28] text-[22px] font-semibold justify-between items-center tracking-wide my-2">
+            <h2 className="text-[#261c28] text-[22px] font-semibold justify-between items-center my-2">
             Result
             </h2>
             <div className="px-4 py-2 bg-white rounded-lg mb-4">
@@ -136,26 +136,26 @@ export function TextArea(data: TextAreaProps) {
             disabled
             />
             </div>
-            <div ref={data.inputDevRef} className="flex items-center justify-between mb-2">
-              <div className="flex flex-row">
+            <div ref={data.inputDevRef} className="flex sm:items-center sm:justify-between mb-2 flex-col sm:flex-row space-y-2">
+              <div className="flex flex-col sm:flex-row">
                 <span className="block text-sm font-bold text-[#3b4455] tracking-wide justify-between ">
                   Cipher Key:
                 </span>
-                <span className="block text-sm font-normal text-[#3b4455] tracking-wide ml-2 justify-between">
+                <span className="block text-sm font-normal text-[#3b4455] tracking-wide sm:ml-2 justify-between">
                   {data.cipherKey.toLowerCase()}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between w-fit">
                 <ScoreToolTip text={setText(data.fitness)}>
-                <div className="w-36 bg-gray-200 rounded-full h-2.5">
-                  <span className="absolute border-l-[12px] border-gray-400 h-full left-[78%]"/>
-                  <span
-                  className="absolute left-0 h-full rounded-full"
-                  style={{
-                    width: ((data.fitness * 83) + '%'),
-                    backgroundColor: setColor(data.fitness)
-                  }}/>                  
-                </div>
+                  <div className="w-36 bg-gray-200 rounded-full h-2.5">
+                    <span className="absolute border-l-[12px] border-gray-300 h-full left-[78%]"/>
+                    <span
+                    className="absolute left-0 h-full rounded-full"
+                    style={{
+                      width: ((data.fitness * 83) + '%'),
+                      backgroundColor: setColor(data.fitness)
+                    }}/>                  
+                  </div>
                 </ScoreToolTip>
               </div>
             </div>
