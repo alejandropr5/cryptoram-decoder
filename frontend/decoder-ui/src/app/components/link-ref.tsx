@@ -19,12 +19,14 @@ export function LinkRef({ linkText,  reference, imageComponent, description}: Li
       rel="noopener noreferrer nofollow external"
       target="_blank"
       href={reference}
-      className="text-[#261c28] flex flex-row justify-between items-center"
+      className="text-[#261c28] flex flex-row justify-between items-center text-base"
     >
-      <span className="h-6 w-6 mr-1">
+      <span className="max-h-6 max-w-6 mr-1">
         <ClientImage imageComponent={imageComponent} description={description}/>
       </span>      
-      {linkText}
+      <span className="sm:visible invisible absolute sm:relative">
+        {linkText}
+      </span>
     </a>
   )
 }
