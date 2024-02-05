@@ -13,7 +13,9 @@ interface SideBarProps {
 
 export function SideBar({ register, watch }: SideBarProps) {
     return (
-      <div className="sticky -order-1 top-[74px] flex flex-col min-w-[400px] max-h-lvh bg-white border-r-[1px] border-r-[#eaecf0] px-6 h-[calc(100vh-74px)] overflow-y-auto">
+      <div className="lg:sticky -order-1 top-[74px] flex flex-col px-6 bg-white
+        max-lg:border-t-[1px] max-lg:border-t-[#eaecf0]
+        lg:min-w-[400px] lg:border-r-[1px] lg:border-r-[#eaecf0] lg:h-[calc(100vh-74px)] lg:overflow-y-auto">
         <div>
           <h2 className="text-[#261c28] text-[22px] font-semibold justify-between items-center tracking-wide my-8">
             Options
@@ -24,7 +26,7 @@ export function SideBar({ register, watch }: SideBarProps) {
             infoText='Maximum number of iterations for the genetic algorithm'
             defaultVal={20}
             maxVal={100}
-            minVal={0}
+            minVal={1}
             sliderId='iterations'
             sliderLabel='Max iterations'
             decimal={false}
@@ -35,7 +37,7 @@ export function SideBar({ register, watch }: SideBarProps) {
             infoText='Size of candidate population for each iteration'
             defaultVal={120}
             maxVal={200}
-            minVal={0}
+            minVal={1}
             sliderId='population'
             decimal={false}
             sliderLabel='Population'
