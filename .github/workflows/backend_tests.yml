@@ -22,11 +22,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd backend
         python -m pip install --upgrade pip
         pip install tox tox-gh-actions
 
     - name: Test with tox
-      run: |
-        cd backend  
-        tox
+      run: tox -c ./backend/tox.ini
