@@ -7,8 +7,8 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { SideBar } from "./sidebar";
 import { PageContent } from "./page-content"
 
-const API_ENDPOINT = 'http://0.0.0.0:8000/decipher'
-const API_STREAM_ENDPOINT = 'http://0.0.0.0:8000/decipher_stream'
+const BACKEND_URL = process.env.BACKEND_URL
+const API_STREAM_PATH = '/decipher_stream'
 
 export function CustomBody() {
   const { register, watch, handleSubmit, setValue, reset } = useForm({
@@ -21,8 +21,6 @@ export function CustomBody() {
   const ctrl = new AbortController()
 
   const onSubmit = async (data: any) => {
-    var myHeaders = new Headers()    
-  
     setValue('result', data.cipherText)
     setFitness(0.3)
     setShowResult(true)
@@ -38,7 +36,7 @@ export function CustomBody() {
       "crossover_rate": data.crossoverRate / 100
     })
 
-    await fetchEventSource(API_STREAM_ENDPOINT, {
+    await fetchEventSource(BACKEND_URL + API_STREAM_PATH, {
       method: 'POST',
       headers: {"Content-Type": "application/json"},
       signal: ctrl.signal,
@@ -64,12 +62,12 @@ export function CustomBody() {
     })
   }
 
-  useEffect (() => {
-    inputDevRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [showResult])
+  // useEffect (() => {
+  //   inputDevRef.current?.scrollIntoView({ behavior: 'smooth' })
+  // }, [showResult])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-row h-fit w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col-reverse lg:flex-row h-fit w-full">
       <SideBar register={register} watch={watch}/>
       <PageContent
         register={register}
