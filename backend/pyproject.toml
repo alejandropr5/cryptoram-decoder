@@ -29,6 +29,9 @@ tox = "^4.11.3"
 ruff = "^0.1.14"
 flake8 = "^7.0.0"
 
+[tool.poetry.extras]
+src = ["app", "utils"]
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
