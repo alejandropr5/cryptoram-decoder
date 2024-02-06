@@ -1,16 +1,19 @@
 'use client'
 
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 import { SideBar } from "./sidebar";
 import { PageContent } from "./page-content"
 
-const BACKEND_URL = process.env.BACKEND_URL
-const API_STREAM_PATH = '/decipher_stream'
+interface CustomBodyProps {
+  backendUrl: string | undefined
+  apiStreamPath: string
+}
 
-export function CustomBody() {
+
+export function CustomBody(bodyData: CustomBodyProps) {
   const { register, watch, handleSubmit, setValue, reset } = useForm({
     mode: 'all'
   })
@@ -21,6 +24,7 @@ export function CustomBody() {
   const ctrl = new AbortController()
 
   const onSubmit = async (data: any) => {
+    console.log(bodyData.backendUrl)
     setValue('result', data.cipherText)
     setFitness(0.3)
     setShowResult(true)
@@ -36,7 +40,7 @@ export function CustomBody() {
       "crossover_rate": data.crossoverRate / 100
     })
 
-    await fetchEventSource(BACKEND_URL + API_STREAM_PATH, {
+    await fetchEventSource(bodyData.backendUrl + bodyData.apiStreamPath, {
       method: 'POST',
       headers: {"Content-Type": "application/json"},
       signal: ctrl.signal,
