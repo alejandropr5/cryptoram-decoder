@@ -24,7 +24,6 @@ export function CustomBody(bodyData: CustomBodyProps) {
   const ctrl = new AbortController()
 
   const onSubmit = async (data: any) => {
-    console.log(bodyData.backendUrl)
     setValue('result', data.cipherText)
     setFitness(0.3)
     setShowResult(true)
@@ -57,9 +56,7 @@ export function CustomBody(bodyData: CustomBodyProps) {
           setValue('result', d.plain_text)
           setKey(d.key)
           setFitness(d.fitness)
-          console.log(d)
         } catch (e) {
-          console.log(data)
           console.log('Fetch onmessage error', e)
         }
       }
