@@ -1,35 +1,21 @@
-# Cryptogram Decoder 🧩
+# Gencipher Page
 
-Cryptogram Decoder is a web application for decoding cryptograms. It consists of both frontend and backend components.
+This repository contains both frontend and backend components of a tool designed to solve monoalphabetic substitution ciphers, also known as cryptograms.
 
-## Structure
+## Backend 
+[![Backend_Tests](https://github.com/alejandropr5/gencipher-page/actions/workflows/backend_tests.yml/badge.svg?branch=main)](https://github.com/alejandropr5/gencipher-page/actions/workflows/backend_tests.yml)  
+The backend, powered by Python and FastAPI, utilizes genetic algorithms from a custom Python package named genetic-decipher. It provides two endpoints documented in Swagger UI.
 
-The project structure is as follows:
+`/decipher` endpoint accepts parameters and returns final results via HTTP request.  
+`/decipher_stream` endpoint utilizes Server-Sent Events (SSE) to send results of each iteration of the genetic algorithm to the client. This allows the frontend to display the progress of the algorithm until the best solution is reached.
 
-- **backend**: The backend is built with Python and FastAPI. It includes the following files:
-  - `api.py`: Contains the API routes for the application.
-  - `main.py`: The main FastAPI application entry point.
-  - `pyproject.toml`: The configuration file for Python dependencies.
-
-- **frontend**: The frontend is a simple web page that receives cryptograms and decodes them. It currently uses Streamlit, but the plan is to migrate to React. The frontend folder includes:
-  - `home.py`: The frontend code for displaying and decoding cryptograms.
-  - `pyproject.toml`: The configuration file for Python dependencies.
-  - `run_streamlit.sh`: A script to run the Streamlit frontend.
-
-- [**Repository for Genetic Decipher Package**](https://github.com/alejandropr5/genetic-decipher.git): The backend uses a custom package available in this repository. The package uses genetic algorithms to decode cryptograms.
-
-## Backend
-
-The backend of this application is responsible for decoding cryptograms using a genetic algorithm. It provides an endpoint to decode the cryptogram. The core functionality is powered by the custom "genetic-decipher" package available in the linked repository.
+> [**API documentation**](https://github.com/alejandropr5/genetic-decipher.git)  
+[**genetic-decipher repository**](https://github.com/alejandropr5/genetic-decipher.git) 
 
 ## Frontend
 
-The frontend is a user-friendly interface for users to input cryptograms and view the deciphered results. While it currently uses Streamlit in Python, there are plans to migrate to a React-based frontend with TypeScript. The frontend also aims to explain the genetic algorithm used in the decryption process.
+The frontend, built with Next.js and Tailwind CSS, provides an intuitive user interface for interacting with the deciphering tool.
 
-## Contribution 🤝
+## Contribution
 
-If you wish to contribute to this project or have any suggestions, please feel free to do so. Your contributions are welcomed for both the frontend and backend. Help us improve the cryptogram decoding experience!
-
----
-
-This project showcases the use of genetic algorithms for cryptogram decryption. If you have any questions or need more information, don't hesitate to ask.
+If you wish to contribute to this project or have any suggestions, please feel free to do so. Your contributions are welcomed for both the frontend and backend.
