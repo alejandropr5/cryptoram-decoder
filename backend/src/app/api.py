@@ -25,10 +25,10 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[constants.HOMEPAGE_LOCALHOST, constants.HOMEPAGE_URL],
+    allow_origins=[constants.HOMEPAGE_URL],
     allow_methods=["*"],
     allow_headers=["*"],
-    allow_credentials=True
+    allow_credentials=False
 )
 
 
