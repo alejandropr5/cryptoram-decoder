@@ -21,9 +21,11 @@ export function CustomBody(bodyData: CustomBodyProps) {
   const [key, setKey] = useState<string>('')
   const [fitness, setFitness] = useState<number>(0)
   const inputDevRef = useRef<HTMLDivElement>(null)
-  const ctrl = new AbortController()
+  const controllerRef = useRef<AbortController>()
 
   const onSubmit = async (data: any) => {
+    controllerRef.current = new AbortController()
+    const signal = controllerRef.current.signal
     setValue('result', data.cipherText)
     setFitness(0.3)
     setShowResult(true)
@@ -42,7 +44,7 @@ export function CustomBody(bodyData: CustomBodyProps) {
     await fetchEventSource(bodyData.backendUrl + bodyData.apiStreamPath, {
       method: 'POST',
       headers: {"Content-Type": "application/json"},
-      signal: ctrl.signal,
+      signal: signal,
       openWhenHidden: true,
       body: requestBody,
       onmessage: async (ev) => {
@@ -59,6 +61,9 @@ export function CustomBody(bodyData: CustomBodyProps) {
         } catch (e) {
           console.log('Fetch onmessage error', e)
         }
+      },
+      onclose: () => {
+        controllerRef.current?.abort()
       }
     })
   }
@@ -80,7 +85,7 @@ export function CustomBody(bodyData: CustomBodyProps) {
         fitness={fitness}
         reset={reset}
         inputDevRef={inputDevRef}
-        ctrl={ctrl}
+        ctrl={controllerRef}
       />
     </form>    
   )

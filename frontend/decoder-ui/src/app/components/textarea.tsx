@@ -18,7 +18,7 @@ interface TextAreaProps {
   fitness: number
   reset: UseFormReset<FieldValues>
   inputDevRef: React.RefObject<HTMLDivElement>
-  ctrl: AbortController
+  ctrl:  React.MutableRefObject<AbortController | undefined>
 }
 
 export function TextArea(data: TextAreaProps) {
@@ -72,7 +72,7 @@ export function TextArea(data: TextAreaProps) {
   }
 
   const clearTextArea = async () => {
-    data.ctrl.abort()
+    data.ctrl.current?.abort()
     data.setValue('cipherText', '')
     data.setValue('result', '')
     data.setCipherKey('')
@@ -124,9 +124,17 @@ export function TextArea(data: TextAreaProps) {
         </div>
         {data.showResult && 
           <div className="flex flex-col px-4 py-2 border-t">
-            <h2 className="text-[#261c28] text-[22px] font-semibold justify-between items-center my-2">
-            Result
-            </h2>
+            <div className="flex flex-row items-center justify-between">
+              <h2 className="text-[#261c28] text-[22px] font-semibold justify-between items-center my-2">
+                Result
+              </h2>
+              {!data.ctrl.current?.signal.aborted &&
+                <div
+                  className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-[#041f3c] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                  role="status"
+                />
+              }           
+            </div>
             <div className="px-4 py-2 bg-white rounded-lg mb-4">
             <textarea
             id="result"

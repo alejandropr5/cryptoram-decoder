@@ -15,7 +15,7 @@ interface PageContentProps {
   fitness: number
   reset: UseFormReset<FieldValues>
   inputDevRef: React.RefObject<HTMLDivElement>
-  ctrl: AbortController
+  ctrl: React.MutableRefObject<AbortController | undefined>
 }
 
 export function PageContent(data: PageContentProps) {
