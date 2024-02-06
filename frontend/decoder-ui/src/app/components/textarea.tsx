@@ -44,8 +44,8 @@ export function TextArea(data: TextAreaProps) {
     const text = [
       'Random set of characters, the result is far away from being readable',
       'Very unlikely to be a readable result',
-      'The correct solution may have be found, or at least the result comes close to english',
-      '	Probably not readable, the provided cipher text might be too short'
+      'The correct solution may have been found, or at least the result comes close to english',
+      'Probably not readable, the provided cipher text might be too short'
     ]
 
     if (score < 0.7) {
