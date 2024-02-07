@@ -16,6 +16,7 @@ interface PageContentProps {
   reset: UseFormReset<FieldValues>
   inputDevRef: React.RefObject<HTMLDivElement>
   ctrl: React.MutableRefObject<AbortController | undefined>
+  showProgress: boolean
 }
 
 export function PageContent(data: PageContentProps) {
@@ -34,6 +35,7 @@ export function PageContent(data: PageContentProps) {
           setCipherKey={data.setCipherKey}
           inputDevRef={data.inputDevRef}
           ctrl={data.ctrl}
+          showProgress={data.showProgress}
         />
       </div>
     </div>

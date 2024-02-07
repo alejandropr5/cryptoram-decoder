@@ -18,6 +18,7 @@ export function CustomBody(bodyData: CustomBodyProps) {
     mode: 'all'
   })
   const [showResult, setShowResult] = useState<boolean>(false)
+  const [showProgress, setShowProgress] = useState<boolean>(true)
   const [key, setKey] = useState<string>('')
   const [fitness, setFitness] = useState<number>(0)
   const inputDevRef = useRef<HTMLDivElement>(null)
@@ -28,6 +29,7 @@ export function CustomBody(bodyData: CustomBodyProps) {
     const signal = controllerRef.current.signal
     setValue('result', data.cipherText)
     setFitness(0.3)
+    setShowProgress(true)
     setShowResult(true)
     
     const requestBody = JSON.stringify({
@@ -63,14 +65,10 @@ export function CustomBody(bodyData: CustomBodyProps) {
         }
       },
       onclose: () => {
-        controllerRef.current?.abort()
+        setShowProgress(false)
       }
     })
   }
-
-  // useEffect (() => {
-  //   inputDevRef.current?.scrollIntoView({ behavior: 'smooth' })
-  // }, [showResult])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col-reverse lg:flex-row h-fit w-full">
@@ -86,6 +84,7 @@ export function CustomBody(bodyData: CustomBodyProps) {
         reset={reset}
         inputDevRef={inputDevRef}
         ctrl={controllerRef}
+        showProgress={showProgress}
       />
     </form>    
   )

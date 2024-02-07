@@ -19,6 +19,7 @@ interface TextAreaProps {
   reset: UseFormReset<FieldValues>
   inputDevRef: React.RefObject<HTMLDivElement>
   ctrl:  React.MutableRefObject<AbortController | undefined>
+  showProgress: boolean
 }
 
 export function TextArea(data: TextAreaProps) {
@@ -128,7 +129,7 @@ export function TextArea(data: TextAreaProps) {
               <h2 className="text-[#261c28] text-[22px] font-semibold justify-between items-center my-2">
                 Result
               </h2>
-              {!data.ctrl.current?.signal.aborted &&
+              {!data.ctrl.current?.signal.aborted && data.showProgress &&
                 <div
                   className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-[#041f3c] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                   role="status"
