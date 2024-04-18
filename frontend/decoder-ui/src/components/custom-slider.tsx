@@ -2,9 +2,9 @@
 
 import { FieldValues, UseFormRegister, UseFormWatch } from 'react-hook-form'
 
-import { LabelToolTip } from './tooltips'
-import { ClientImage } from './client-image'
-import infoSVG from '../../../public/info-svgrepo-com.svg'
+import { LabelToolTip } from '@/components/tooltips'
+import { ClientImage } from '@/components/client-image'
+import infoSVG from '@public/info-svgrepo-com.svg'
 import { stringify } from 'querystring'
 
 interface Props {

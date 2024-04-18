@@ -1,11 +1,11 @@
 'use client'
 
 import React from 'react'
-import { LabelToolTip } from './tooltips'
-import { ClientImage } from './client-image'
+import { LabelToolTip } from '@/components/tooltips'
+import { ClientImage } from '@/components/client-image'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 
-import infoSVG from '../../../public/info-svgrepo-com.svg'
+import infoSVG from '@public/info-svgrepo-com.svg'
 
 interface Props {
   register: UseFormRegister<FieldValues>

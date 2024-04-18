@@ -3,10 +3,10 @@
 import React, { useState } from 'react'
 import { FieldValues, UseFormRegister, UseFormSetValue, UseFormReset } from 'react-hook-form'
 
-import { ClientImage } from './client-image'
-import randomSVG from '../../../public/dice-random.svg'
-import { ButtonToolTip, ScoreToolTip } from './tooltips'
-import EXAMPLES from './examples/examples'
+import { ClientImage } from '@/components/client-image'
+import randomSVG from '@public/dice-random.svg'
+import { ButtonToolTip, ScoreToolTip } from '@/components/tooltips'
+import EXAMPLES from '@/components/examples/examples'
 
 interface TextAreaProps {
   register: UseFormRegister<FieldValues>

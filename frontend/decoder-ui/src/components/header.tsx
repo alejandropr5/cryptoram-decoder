@@ -1,11 +1,11 @@
 'use client'
 
 import React from 'react'
-import { ClientImage } from './client-image'
-import { LinkRef } from './link-ref'
-import gencipher from '../../../public/gencipher.png'
-import githubSVG from '../../../public/github-svgrepo-com.svg'
-import aboutSVG from '../../../public/web-svgrepo-com.svg'
+import { ClientImage } from '@/components/client-image'
+import { LinkRef } from '@/components/link-ref'
+import gencipher from '@public/gencipher.png'
+import githubSVG from '@public/github-svgrepo-com.svg'
+import aboutSVG from '@public/web-svgrepo-com.svg'
 
 export function CustomHeader() {
     return (

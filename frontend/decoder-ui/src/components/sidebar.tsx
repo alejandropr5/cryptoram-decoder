@@ -3,8 +3,8 @@
 import React from 'react'
 import { FieldValues, UseFormRegister, UseFormWatch } from 'react-hook-form'
 
-import { CustomSlider } from './custom-slider'
-import { CustomSelect } from './custom-select'
+import { CustomSlider } from '@/components/custom-slider'
+import { CustomSelect } from '@/components/custom-select'
 
 interface SideBarProps {
   register: UseFormRegister<FieldValues>

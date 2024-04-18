@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { TextArea } from './textarea'
-import { PageText } from './page-text'
+import { TextArea } from '@/components/textarea'
+import { PageText } from '@/components/page-text'
 import { FieldValues, UseFormRegister, UseFormReset, UseFormSetValue } from 'react-hook-form'
 
 interface PageContentProps {

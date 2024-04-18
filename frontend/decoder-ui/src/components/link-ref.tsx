@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { StaticImageData } from 'next/image'
-import { ClientImage } from './client-image'
-import gencipher from '../../../public/gencipher.png'
+import { ClientImage } from '@/components/client-image'
+import gencipher from '@public/gencipher.png'
 
 
 interface LinkRefProps {

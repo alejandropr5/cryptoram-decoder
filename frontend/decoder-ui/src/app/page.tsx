@@ -1,5 +1,5 @@
-import { CustomBody } from "./components/custom-body";
-import { CustomHeader } from "./components/header";
+import { CustomBody } from "@/components/custom-body";
+import { CustomHeader } from "@/components/header";
 
 export default function Home() {
   const BACKEND_URL = process.env.BACKEND_URL

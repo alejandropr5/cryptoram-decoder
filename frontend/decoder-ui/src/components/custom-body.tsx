@@ -4,8 +4,8 @@ import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 
-import { SideBar } from "./sidebar";
-import { PageContent } from "./page-content"
+import { SideBar } from "@/components/sidebar";
+import { PageContent } from "@/components/page-content"
 
 interface CustomBodyProps {
   backendUrl: string | undefined
