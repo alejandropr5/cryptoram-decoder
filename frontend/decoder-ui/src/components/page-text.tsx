@@ -28,16 +28,16 @@ export function PageText() {
       </h1>
       <p className="text-[#3b4455] mb-10 text-[18px]">
         This tool uses a{' '}        
-        <TextRef link="https://en.wikipedia.org/wiki/Genetic_algorithm">
+        <TextRef link="https://alejandropr5.github.io/portfolio/blog/solving-cryptograms-with-genetic-algorithms#genetic-algorithm">
           genetic algorithm
         </TextRef>
         {' '}to solve monoalphabetic substitution ciphers, also known as{' '}
-        <TextRef link="https://en.wikipedia.org/wiki/Cryptogram">
+        <TextRef link="https://alejandropr5.github.io/portfolio/blog/solving-cryptograms-with-genetic-algorithms#cryptogram">
           cryptograms
         </TextRef>
         . These are ciphers where each letter of the clear text is replaced by a corresponding
         letter of a{' '}
-        <TextRef link="https://en.wikipedia.org/wiki/Key_(cryptography)">
+        <TextRef link="https://alejandropr5.github.io/portfolio/blog/solving-cryptograms-with-genetic-algorithms#cipher-key">
           cipher key
         </TextRef>
         .
